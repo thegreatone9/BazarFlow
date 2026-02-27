@@ -1,0 +1,152 @@
+[
+    {
+        "id": "v001",
+        "lat": 23.8103,
+        "lng": 90.4125,
+        "category": "potato",
+        "vendor_name": "Karim Alu Wala",
+        "created_at": "2026-02-28T06:00:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v002",
+        "lat": 23.7945,
+        "lng": 90.4043,
+        "category": "onion",
+        "vendor_name": "Rahim Peyaj",
+        "created_at": "2026-02-28T06:15:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v003",
+        "lat": 23.7506,
+        "lng": 90.3926,
+        "category": "egg",
+        "vendor_name": "Jamal Dim Dokan",
+        "created_at": "2026-02-28T06:30:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v004",
+        "lat": 23.7810,
+        "lng": 90.4150,
+        "category": "chicken",
+        "vendor_name": "Babul Murgi Bhandar",
+        "created_at": "2026-02-28T07:00:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v005",
+        "lat": 23.7940,
+        "lng": 90.4140,
+        "category": "greens",
+        "vendor_name": "Salma Shak Bikreta",
+        "created_at": "2026-02-28T07:15:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v006",
+        "lat": 23.7765,
+        "lng": 90.4250,
+        "category": "fruit",
+        "vendor_name": "Hasan Fol Wala",
+        "created_at": "2026-02-28T07:30:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v007",
+        "lat": 23.8270,
+        "lng": 90.3655,
+        "category": "potato",
+        "vendor_name": "Milon Alu Gari",
+        "created_at": "2026-02-28T05:45:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v008",
+        "lat": 23.8185,
+        "lng": 90.3720,
+        "category": "onion",
+        "vendor_name": "Sohel Peyaj Dokan",
+        "created_at": "2026-02-28T06:00:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v009",
+        "lat": 23.7660,
+        "lng": 90.3580,
+        "category": "greens",
+        "vendor_name": "Rashida Shak Paata",
+        "created_at": "2026-02-28T06:20:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v010",
+        "lat": 23.7500,
+        "lng": 90.3750,
+        "category": "fruit",
+        "vendor_name": "Nazrul Aam Wala",
+        "created_at": "2026-02-28T06:40:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v011",
+        "lat": 23.7380,
+        "lng": 90.3950,
+        "category": "chicken",
+        "vendor_name": "Faruk Murgi Corner",
+        "created_at": "2026-02-28T07:00:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v012",
+        "lat": 23.8050,
+        "lng": 90.3690,
+        "category": "egg",
+        "vendor_name": "Shafiq Dim Ghor",
+        "created_at": "2026-02-28T07:10:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v013",
+        "lat": 23.7920,
+        "lng": 90.4230,
+        "category": "potato",
+        "vendor_name": "Billal Alu Bazar",
+        "created_at": "2026-02-28T05:30:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v014",
+        "lat": 23.7680,
+        "lng": 90.4310,
+        "category": "fruit",
+        "vendor_name": "Rupa Fol Bikreta",
+        "created_at": "2026-02-28T06:50:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    },
+    {
+        "id": "v015",
+        "lat": 23.8320,
+        "lng": 90.4200,
+        "category": "greens",
+        "vendor_name": "Ayesha Shak Bhandar",
+        "created_at": "2026-02-28T07:20:00Z",
+        "valid_until": "2026-12-31T23:59:59Z",
+        "status": "active"
+    }
+]
