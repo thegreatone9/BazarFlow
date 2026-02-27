@@ -2,7 +2,6 @@ import MapView from './components/MapView';
 import BottomBar from './components/BottomBar';
 import FloatingButtons from './components/FloatingButtons';
 import StatusBar from './components/StatusBar';
-import Legend from './components/Legend';
 import Toast from './components/Toast';
 import SearchBar from './components/SearchBar';
 
@@ -11,7 +10,6 @@ export default function App() {
     <>
       <MapView />
       <SearchBar />
-      <Legend />
       <StatusBar />
       <FloatingButtons />
       <BottomBar />

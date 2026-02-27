@@ -134,6 +134,56 @@ body,
   font-size: 12px;
 }
 
+/* ─── Map Vendor Tooltip (hover) ─── */
+.vendor-tooltip {
+  background: rgba(15, 23, 42, 0.92) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(51, 65, 85, 0.6) !important;
+  border-radius: 10px !important;
+  padding: 6px 12px !important;
+  color: var(--color-text) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important;
+}
+
+.vendor-tooltip::before {
+  border-top-color: rgba(15, 23, 42, 0.92) !important;
+}
+
+/* ─── Bottom Bar Chip Tooltip (fast hover) ─── */
+.chip-wrapper {
+  position: relative;
+}
+
+.chip-wrapper::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  padding: 4px 10px;
+  background: rgba(15, 23, 42, 0.92);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.1s ease, transform 0.1s ease;
+  z-index: 10;
+}
+
+.chip-wrapper:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
 /* ─── Glass Panel ─── */
 .glass-panel {
   background: rgba(30, 41, 59, 0.85);
@@ -160,9 +210,14 @@ body,
 
 .category-row {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
+}
+
+.chip-wrapper {
+  position: relative;
 }
 
 .category-chip {
@@ -191,6 +246,124 @@ body,
   border-color: var(--color-accent);
   background: var(--color-accent-glow);
   box-shadow: 0 0 12px var(--color-accent-glow);
+}
+
+.chip-add {
+  background: transparent;
+  border: 2px dashed rgba(148, 163, 184, 0.4);
+  color: var(--color-text-muted);
+  font-size: 22px;
+  font-weight: 300;
+}
+
+.chip-add:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: transparent;
+}
+
+.chip-remove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.9);
+  color: #fff;
+  border: none;
+  font-size: 12px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 1;
+}
+
+.chip-wrapper:hover .chip-remove {
+  opacity: 1;
+}
+
+/* Vendor item search */
+.vendor-search {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.vendor-search-dropdown {
+  list-style: none;
+  margin: 0 0 6px 0;
+  padding: 6px 0;
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-radius: 12px;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.vendor-search-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.vendor-search-item:hover {
+  background: var(--color-surface-hover);
+}
+
+.vendor-search-item:active {
+  background: var(--color-accent-glow);
+}
+
+.vendor-search-item-emoji {
+  font-size: 20px;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.vendor-search-item-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.vendor-search-input {
+  width: 100%;
+  padding: 8px 14px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  outline: none;
+  caret-color: var(--color-accent);
+  transition: border-color 0.2s ease;
+}
+
+.vendor-search-input:focus {
+  border-color: var(--color-accent);
+}
+
+.vendor-search-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.vendor-search-empty {
+  display: block;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--color-text-muted);
 }
 
 /* ─── Floating Action Buttons ─── */
@@ -338,6 +511,29 @@ body,
   flex-shrink: 0;
 }
 
+.search-location-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 6px auto 0;
+  padding: 4px 12px;
+  width: fit-content;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.search-location-pin {
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
 .search-results {
   list-style: none;
   margin-top: 6px;
@@ -411,8 +607,8 @@ body,
 /* ─── Status Indicators ─── */
 .status-bar {
   position: fixed;
-  top: 16px;
-  right: 16px;
+  top: 20px;
+  left: 16px;
   z-index: 1000;
   display: flex;
   align-items: center;

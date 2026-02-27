@@ -41,6 +41,7 @@ const locationSlice = createSlice({
         tracking: false,
         followMode: false,  // whether map should auto-pan to user
         mapCenter: { lat: 23.8103, lng: 90.4125 }, // current "home" center (default: Dhaka)
+        locationLabel: 'Dhaka', // display name for current center
     },
     reducers: {
         setCoords(state, action) {
@@ -55,6 +56,9 @@ const locationSlice = createSlice({
         setMapCenter(state, action) {
             state.mapCenter = action.payload;
         },
+        setLocationLabel(state, action) {
+            state.locationLabel = action.payload;
+        },
     },
 });
 
@@ -64,7 +68,8 @@ const uiSlice = createSlice({
     initialState: {
         connected: false,
         toast: null,       // { message, type: 'success'|'error'|'info' }
-        selectedCategory: null,
+        pinnedItems: [],   // category keys added to bottom bar (max 5)
+        activeItems: [],   // subset of pinnedItems currently visible on map
         language: 'en',    // 'en' | 'bn'
     },
     reducers: {
@@ -77,8 +82,25 @@ const uiSlice = createSlice({
         clearToast(state) {
             state.toast = null;
         },
-        setSelectedCategory(state, action) {
-            state.selectedCategory = action.payload;
+        addPinnedItem(state, action) {
+            const key = action.payload;
+            if (state.pinnedItems.length < 5 && !state.pinnedItems.includes(key)) {
+                state.pinnedItems.push(key);
+                state.activeItems.push(key);
+            }
+        },
+        removePinnedItem(state, action) {
+            const key = action.payload;
+            state.pinnedItems = state.pinnedItems.filter((k) => k !== key);
+            state.activeItems = state.activeItems.filter((k) => k !== key);
+        },
+        toggleActiveItem(state, action) {
+            const key = action.payload;
+            if (state.activeItems.includes(key)) {
+                state.activeItems = state.activeItems.filter((k) => k !== key);
+            } else {
+                state.activeItems.push(key);
+            }
         },
         toggleLanguage(state) {
             state.language = state.language === 'en' ? 'bn' : 'en';
@@ -89,9 +111,9 @@ const uiSlice = createSlice({
 // Export actions
 export const { setLoading, setError, setMarkers, addMarker, removeMarker } =
     markersSlice.actions;
-export const { setCoords, setTracking, setFollowMode, setMapCenter } =
+export const { setCoords, setTracking, setFollowMode, setMapCenter, setLocationLabel } =
     locationSlice.actions;
-export const { setConnected, showToast, clearToast, setSelectedCategory, toggleLanguage } =
+export const { setConnected, showToast, clearToast, addPinnedItem, removePinnedItem, toggleActiveItem, toggleLanguage } =
     uiSlice.actions;
 
 // ─── Store ───

@@ -10,6 +10,10 @@ import {
     setConnected,
     showToast,
     clearToast,
+    setCoords,
+    setFollowMode,
+    setMapCenter,
+    setLocationLabel,
 } from '../store';
 
 export default function MapView() {
@@ -17,6 +21,7 @@ export default function MapView() {
     const markers = useSelector((state) => state.markers.items);
     const userCoords = useSelector((state) => state.location.coords);
     const followMode = useSelector((state) => state.location.followMode);
+    const activeItems = useSelector((state) => state.ui.activeItems);
 
     const mapRef = useRef(null);
     const mapInstanceRef = useRef(null);
@@ -35,6 +40,30 @@ export default function MapView() {
 
         // Initial data load
         loadMarkers();
+
+        // Auto-locate user on first load
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                    dispatch(setCoords(coords));
+                    dispatch(setMapCenter(coords));
+                    dispatch(setFollowMode(true));
+                    flyTo(map, coords.lat, coords.lng, 15);
+
+                    // Reverse geocode for label
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords.lat}&lon=${coords.lng}`)
+                        .then((r) => r.json())
+                        .then((data) => {
+                            const name = data.display_name?.split(',').slice(0, 2).join(',') || 'My Location';
+                            dispatch(setLocationLabel(name));
+                        })
+                        .catch(() => dispatch(setLocationLabel('My Location')));
+                },
+                () => { }, // Silently fall back to default center
+                { enableHighAccuracy: true, timeout: 8000 }
+            );
+        }
 
         // Real-time subscription
         const channel = subscribeToNewMarkers((newMarker) => {
@@ -60,30 +89,42 @@ export default function MapView() {
         };
     }, []);
 
-    // ─── Sync markers state → map layers ───
+    // ─── Sync markers state → map layers (filtered by activeItems) ───
     useEffect(() => {
         const map = mapInstanceRef.current;
         if (!map) return;
 
-        const currentIds = new Set(Object.keys(markers));
+        const shouldShow = (marker) =>
+            activeItems.length === 0 || activeItems.includes(marker.category);
+
         const renderedIds = new Set(Object.keys(markerLayersRef.current));
 
-        // Add new markers
-        currentIds.forEach((id) => {
-            if (!renderedIds.has(id)) {
-                const layer = addVendorMarker(map, markers[id]);
-                markerLayersRef.current[id] = layer;
+        // Add / show matching markers
+        Object.entries(markers).forEach(([id, marker]) => {
+            if (shouldShow(marker)) {
+                if (!renderedIds.has(id)) {
+                    const layer = addVendorMarker(map, marker);
+                    markerLayersRef.current[id] = layer;
+                }
+            } else {
+                // Hide markers that don't match
+                if (renderedIds.has(id)) {
+                    map.removeLayer(markerLayersRef.current[id]);
+                    delete markerLayersRef.current[id];
+                }
             }
         });
 
-        // Remove stale layers
+        // Remove stale layers (marker deleted from state)
         renderedIds.forEach((id) => {
-            if (!currentIds.has(id)) {
-                map.removeLayer(markerLayersRef.current[id]);
+            if (!markers[id]) {
+                if (markerLayersRef.current[id]) {
+                    map.removeLayer(markerLayersRef.current[id]);
+                }
                 delete markerLayersRef.current[id];
             }
         });
-    }, [markers]);
+    }, [markers, activeItems]);
 
     // ─── Update user dot position ───
     useEffect(() => {

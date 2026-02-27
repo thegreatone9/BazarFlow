@@ -62,6 +62,10 @@ export function addVendorMarker(map, markerData) {
 
     const layer = L.marker([markerData.lat, markerData.lng], { icon })
         .addTo(map)
+        .bindTooltip(
+            `<strong>${category.label}</strong><br/>${markerData.vendor_name || 'Vendor'}`,
+            { direction: 'top', offset: [0, -24], className: 'vendor-tooltip' }
+        )
         .bindPopup(
             `<div>
         <div class="popup-vendor-name">${category.emoji} ${markerData.vendor_name || 'Vendor'}</div>

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setCoords, setTracking, setFollowMode, setMapCenter } from '../store';
+import { setCoords, setTracking, setFollowMode, setMapCenter, setLocationLabel } from '../store';
 import { showToast, clearToast, toggleLanguage } from '../store';
 import { flyTo } from '../map';
 
@@ -33,6 +33,15 @@ export default function FloatingButtons() {
                 dispatch(setMapCenter(coords));
                 const map = window.__bazarflow_map;
                 if (map) flyTo(map, coords.lat, coords.lng, 15);
+
+                // Reverse geocode for location label
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${coords.lat}&lon=${coords.lng}`)
+                    .then((r) => r.json())
+                    .then((data) => {
+                        const name = data.display_name?.split(',').slice(0, 2).join(',') || 'My Location';
+                        dispatch(setLocationLabel(name));
+                    })
+                    .catch(() => dispatch(setLocationLabel('My Location')));
             },
             (err) => {
                 console.error('[BazarFlow] Geolocation error:', err);

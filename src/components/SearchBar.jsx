@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { setMapCenter } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMapCenter, setLocationLabel } from '../store';
 import { flyTo } from '../map';
 
 const NOMINATIM_URL = 'https://nominatim.openstreetmap.org/search';
 
 export default function SearchBar() {
     const dispatch = useDispatch();
+    const locationLabel = useSelector((state) => state.location.locationLabel);
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [open, setOpen] = useState(false);
@@ -53,8 +54,9 @@ export default function SearchBar() {
         const lat = parseFloat(result.lat);
         const lng = parseFloat(result.lon);
 
-        // Update map center for recenter button
+        // Update map center and location label
         dispatch(setMapCenter({ lat, lng }));
+        dispatch(setLocationLabel(result.display_name.split(',').slice(0, 2).join(',')));
 
         const map = window.__bazarflow_map;
         if (map) flyTo(map, lat, lng, 15);
@@ -100,6 +102,13 @@ export default function SearchBar() {
                 />
                 {loading && <span className="search-spinner" />}
             </div>
+
+            {locationLabel && (
+                <div className="search-location-label">
+                    <span className="search-location-pin">📌</span>
+                    <span>{locationLabel}</span>
+                </div>
+            )}
 
             {open && results.length > 0 && (
                 <ul className="search-results">
